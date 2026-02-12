@@ -19,36 +19,38 @@ func productor(n int, out chan<- int) {
 		fmt.Printf("[productor] envía %d\n", v)
 		out <- v
 		// TODO: dormir un poco para ver el flujo
-		// usa Sleep con un valor aleatorio entre 100 y 500 ms
+		time.Sleep(time.Duration(rand.Intn(400)+100) * time.Millisecond)
 	}
 }
 
 func consumidor(id int, in <-chan int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	for v := range in { // TODO: leer hasta que canal se cierre
+
 		fmt.Printf("[consumidor %d] recibe %d\n", id, v)
 		// TODO: simular trabajo
 		// usa Sleep con un valor aleatorio entre 100 y 500 ms
+		time.Sleep(time.Duration(rand.Intn(400)+v*50) * time.Millisecond)
 	}
 	fmt.Printf("[consumidor %d] canal cerrado, termina\n", id)
+	wg.Done()
 }
 
 func main() {
-	rand.Seed(time.Now().UnixNano())
+
 	valores := 10
-	consumidores := 3
-
-	ch := make(chan int) // TODO: prueba cambiar a canal bufferizado: make(chan int, 4)
-
+	consumidores := 30
+	ch := make(chan int, 4)
 	var wg sync.WaitGroup
 	wg.Add(consumidores)
-	// TODO: lanzar las goroutines consumidoras
+	// TODO: lanzar consumidores
 	for i := 1; i <= consumidores; i++ {
-
+		go consumidor(i, ch, &wg)
+		wg.Add(1)
 	}
 
 	go productor(valores, ch)
-
+	//esperar consumidores
 	wg.Wait()
 	fmt.Println("Listo: todos los consumidores terminaron.")
 }
