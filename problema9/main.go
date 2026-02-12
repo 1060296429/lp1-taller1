@@ -10,7 +10,7 @@ import (
 // Hay 5 filósofos y 5 tenedores (recursos). Cada filósofo necesita 2 tenedores para comer.
 // Estrategia segura: imponer un **orden global** al tomar los tenedores (primero el menor ID, luego el mayor)
 // para evitar deadlock. También puedes limitar concurrencia (ej. mayordomo).
-// TODO: completa la lógica de toma/soltado de tenedores y bucle de pensar/comer.
+//completa la lógica de toma/soltado de tenedores y bucle de pensar/comer.
 
 type tenedor struct {
 	mu sync.Mutex
@@ -36,21 +36,21 @@ func filosofo(id int, izq, der *tenedor, wg *sync.WaitGroup) {
 		segundo.mu.Unlock()
 		primero.mu.Unlock()
 	}
-	// TODO: desarrolla el código para el filósofo {
+	//desarrolla el código para el filósofo {
 	fmt.Printf("[filósofo %d] satisfecho\n", id)
 }
 
 func pensar(id int) {
 	fmt.Printf("[filósofo %d] pensando...\n", id)
 	time.Sleep(300 * time.Millisecond)
-	// TODO: simular tiempo de pensar
+	//simular tiempo de pensar
 
 }
 
 func comer(id int) {
 	fmt.Printf("[filósofo %d] COMIENDO\n", id)
 	time.Sleep(300 * time.Millisecond)
-	// TODO: simular tiempo de pensar
+	//simular tiempo de comer
 
 }
 
@@ -63,7 +63,7 @@ func main() {
 	tenedores := make([]*tenedor, n)
 	for i := 0; i < n; i++ {
 		tenedores[i] = &tenedor{}
-		// TODO: inicializar cada tenedor i
+		//inicializar cada tenedor i
 
 	}
 
