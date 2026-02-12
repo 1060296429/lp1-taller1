@@ -12,22 +12,44 @@ import (
 // para evitar deadlock. También puedes limitar concurrencia (ej. mayordomo).
 // TODO: completa la lógica de toma/soltado de tenedores y bucle de pensar/comer.
 
-type tenedor struct{ mu sync.Mutex }
+type tenedor struct {
+	mu sync.Mutex
+}
 
 func filosofo(id int, izq, der *tenedor, wg *sync.WaitGroup) {
-	// TODO: desarrolla el código para el filósofo
-	
+	defer wg.Done()
+	for i := 0; i < 3; i++ {
+		//pensar
+		pensar(id)
+		//orden global
+		//tomar primero el de menor direccion de memoria
+		primero := izq
+		segundo := der
+		if fmt.Sprintf("%p", der) < fmt.Sprintf("%p", izq) {
+			primero = der
+			segundo = izq
+		}
+		primero.mu.Lock()
+		segundo.mu.Lock()
+		comer(id)
+		//soltar tenedores
+		segundo.mu.Unlock()
+		primero.mu.Unlock()
+	}
+	// TODO: desarrolla el código para el filósofo {
 	fmt.Printf("[filósofo %d] satisfecho\n", id)
 }
 
 func pensar(id int) {
 	fmt.Printf("[filósofo %d] pensando...\n", id)
+	time.Sleep(300 * time.Millisecond)
 	// TODO: simular tiempo de pensar
 
 }
 
 func comer(id int) {
 	fmt.Printf("[filósofo %d] COMIENDO\n", id)
+	time.Sleep(300 * time.Millisecond)
 	// TODO: simular tiempo de pensar
 
 }
@@ -38,17 +60,18 @@ func main() {
 	wg.Add(n)
 
 	// crear tenedores
-	forks := make([]*tenedor, n)
+	tenedores := make([]*tenedor, n)
 	for i := 0; i < n; i++ {
+		tenedores[i] = &tenedor{}
 		// TODO: inicializar cada tenedor i
 
 	}
 
-	// lanzar filósofos
+	// crear filosofos (cada uno con su izq y der)
 	for i := 0; i < n; i++ {
-		izq := forks[i]
-		der := forks[(i+1)%n]
-		// TODO: lanzar goroutine para el filósofo i
+		izq := tenedores[i]
+		der := tenedores[(i+1)%n]
+		go filosofo(i, izq, der, &wg)
 
 	}
 
