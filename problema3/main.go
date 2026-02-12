@@ -9,7 +9,7 @@ import (
 // Objetivo: Provocar condición de carrera incrementando un contador desde múltiples goroutines,
 // luego arreglarla usando Mutex y/o atomic. Ejecuta con el detector de carrera:
 //   go run -race ./problema3
-// TODO: implementa las variantes pedidas.
+// implementa las variantes pedidas.
 
 // Variante insegura (condición de carrera):
 func incrementarInseguro(nGoroutines, nIncrementos int) int64 {
@@ -24,7 +24,7 @@ func incrementarInseguro(nGoroutines, nIncrementos int) int64 {
 
 			for j := 0; j < nIncrementos; j++ {
 				contador = contador + 1
-				// TODO: incrementar de manera NO atómica (contador = contador + 1)
+				// incrementar de manera NO atómica (contador = contador + 1)
 
 			}
 		}()
@@ -45,7 +45,7 @@ func incrementarConMutex(nGoroutines, nIncrementos int) int64 {
 		go func() {
 			defer wg.Done()
 			for j := 0; j < nIncrementos; j++ {
-				// TODO: proteger la sección crítica con mu.Lock()/mu.Unlock()
+				// proteger la sección crítica con mu.Lock()/mu.Unlock()
 				mu.Lock()
 				contador = contador + 1
 				mu.Unlock()
