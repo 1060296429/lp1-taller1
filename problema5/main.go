@@ -9,10 +9,10 @@ import (
 
 // Objetivo: Lectores–Escritores con RWMutex sobre un mapa compartido.
 // Varios lectores pueden leer en paralelo; los escritores tienen exclusión mutua.
-// TODO: completa los pasos y observa la diferencia entre Mutex y RWMutex.
+// completa los pasos y observa la diferencia entre Mutex y RWMutex.
 
 type baseDatos struct {
-	mu sync.RWMutex // TODO: cambia a sync.Mutex para comparar comportamiento
+	mu sync.RWMutex //cambia a sync.Mutex para comparar comportamiento
 	m  map[string]int
 }
 
@@ -64,7 +64,7 @@ func main() {
 
 	var wg sync.WaitGroup
 
-	// TODO: experimenta con # de lectores y escritores
+	//experimenta con # de lectores y escritores
 	nLectores := 5
 	nEscritores := 2
 
