@@ -9,7 +9,7 @@ import (
 // Objetivo: Provocar un deadlock con dos mutex y dos goroutines que adquieren
 // recursos en orden distinto. Luego evitarlo imponiendo un orden global.
 // NOTA: La versión con deadlock se quedará bloqueada: ejecútala, observa y luego cambia a la versión segura.
-// TODO: completa/activa la sección que quieras probar.
+//completa/activa la sección que quieras probar.
 
 func sinDeadlock() {
 	var mu1, mu2 sync.Mutex
@@ -47,7 +47,7 @@ func sinDeadlock() {
 func main() {
 	fmt.Println("=== Elige una sección para ejecutar ===")
 	sinDeadlock()
-	// TODO: comenta/activa la versión que desees probar
+	//comenta/activa la versión que desees probar
 	// para probar la vercion correcta:
 	//sinDeadlock()
 	fmt.Println("fin del programa")
